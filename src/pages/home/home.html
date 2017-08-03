@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-navbar color="dark">
+
+    <ion-title>
+      8Gag
+    </ion-title>
+
+    <ion-buttons end>
+      
+      <button ion-button
+              *ngIf="!_auth.authenticated"
+              (click)="ingresar()">
+        Ingresar
+      </button>
+
+      <button ion-button
+              *ngIf="_auth.authenticated"
+              (click)="salir()">
+        Salir
+      </button>
+
+    </ion-buttons>
+
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  
+  <ion-card *ngFor="let post of _cas.imagenes">
+
+    <img [src]="post.img">
+  
+    <ion-card-content>
+
+      <ion-card-title>
+        {{post.titulo}}
+      </ion-card-title>
+
+    </ion-card-content>
+
+    <ion-row>
+      <ion-col text-right>
+
+        <button ion-button 
+                clear
+                small 
+                color="primary"
+                icon-left
+                (click)="compartir(post.titulo,post.img, '')">
+          <ion-icon name="share-alt"></ion-icon>
+          Compartir        
+        </button>
+
+      </ion-col>
+    </ion-row>
+
+  </ion-card>
+
+
+
+  <ion-fab bottom right *ngIf="_auth.authenticated">
+    <button ion-fab
+            color="danger"
+            (click)="mostrar_modal()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
+
+
+  <ion-infinite-scroll (ionInfinite)="cargar_siguientes($event)" [enabled]="hayMas" >
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>
